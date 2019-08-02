@@ -17,6 +17,73 @@ describe("ShoppingListItem", function() {
     let apples = new ShoppingListItem("Apples", "Red delicious");
     apples.isDone.should.equal(false);
   });
+
+  it("should accept strings", function() {
+    let apples = new ShoppingListItem("Apples", "Red delicious");
+    apples.name.should.equal("Apples");
+    apples.description.should.equal("Red delicious");
+  });
+
+  it("should accept duplicate input", function() {
+    let apples = new ShoppingListItem("Apples", "Red delicious");
+    let apples2 = new ShoppingListItem("Apples", "Red delicious");
+    apples2.name.should.equal("Apples");
+    apples2.description.should.equal("Red delicious");
+  });
+
+  it("should accept empty strings", function() {
+    let apples = new ShoppingListItem("", "");
+    apples.name.should.equal("");
+    apples.description.should.equal("");
+  });
+
+  it("should accept numbers", function() {
+    let apples = new ShoppingListItem(1, 2);
+    apples.name.should.equal(1);
+    apples.description.should.equal(2);
+  });
+
+  it("should accept arrays", function() {
+    let apples = new ShoppingListItem(
+      ["Apples", "Oranges", "Bananas"],
+      ["Red delicious", "Navel", "Chiquita"]
+    );
+    apples.name.should.equal(["Apples", "Oranges", "Bananas"]);
+    apples.description.should.equal(["Red delicious", "Navel", "Chiquita"]);
+  });
+
+  it("should accept objects", function() {
+    let apples = new ShoppingListItem(
+      { name: "Apples", name: "Oranges", name: "Bananas" },
+      {
+        description: "Red delicious",
+        description: "Navel",
+        description: "Chiquita"
+      }
+    );
+    apples.name.should.equal({
+      name: "Apples",
+      name: "Oranges",
+      name: "Bananas"
+    });
+    apples.description.should.equal({
+      description: "Red delicious",
+      description: "Navel",
+      description: "Chiquita"
+    });
+  });
+
+  it("should accept null values", function() {
+    let apples = new ShoppingListItem(null, null);
+    apples.name.should.equal(null);
+    apples.description.should.equal(null);
+  });
+
+  it("should accept undefined values", function() {
+    let apples = new ShoppingListItem(undefined, undefined);
+    apples.name.should.equal(undefined);
+    apples.description.should.equal(undefined);
+  });
 });
 
 describe(".check", function() {
@@ -75,31 +142,3 @@ describe(".render", function() {
     );
   });
 });
-
-/*
-
-ShoppingListItem has a constructor method that accepts 2 arguments, name and description
-
-the constructor method sets the new instances name and description properties using the arguments passed in
-
-class ShoppingListItem {
-  constructor (name, description) {
-    this.name = name;
-    this.description = description;
-    this.isDone = isDone;
-  }
-
-  check() {
-    isDone = true;
-  }
-
-  uncheck() {
-    isDone = false;
-  }
-
-  render() {
-
-  }
-}
-
-*/

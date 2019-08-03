@@ -1,6 +1,11 @@
 describe("ShoppingListItem", function() {
-  it("should be a class", function() {
-    expect(ShoppingListItem).to.be.a("function");
+  // it("should be a class", function() {
+  //   expect(ShoppingListItem).to.be.a("function");
+  // });
+
+  it("should be an object", function() {
+    let apples = new ShoppingListItem("Apples", "Red delicious");
+    apples.should.be.an("object");
   });
 
   it("should have a name", function() {

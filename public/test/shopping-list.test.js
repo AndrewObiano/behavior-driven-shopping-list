@@ -3,14 +3,26 @@ describe("ShoppingList", function() {
     expect(ShoppingList).to.be.a("function");
   });
 
-  it("should be an empty array", function() {
+  //  ) List should be an array
+  it("should be an array", function() {
     let shoppingList = new ShoppingList();
     shoppingList.should.be.an("array");
+  });
+
+  // ) should be empty by default
+  it("should be empty by default", function() {
+    let shoppingList = new ShoppingList();
     shoppingList.length.should.be(0);
   });
 });
 
 describe(".addItem", function() {
+  // ) addItem should be a function
+  it("should be a function", function() {
+    expect(ShoppingList.addItem).to.be.a("function");
+  });
+
+  // ) should add existing items to a list
   it("should add an existing item", function() {
     let apples = new ShoppingListItem("Apples", "Red delicious");
     let shoppingList = new ShoppingList();
@@ -20,27 +32,24 @@ describe(".addItem", function() {
     ]);
   });
 
-  it("should error when attempting to add a nonexistent item", function() {
-    let shoppingList = new ShoppingList();
-    shoppingList.push(apples);
-    expect(shoppingList[0]).to.equal(undefined);
-    shoppingList.addItem(apples).should.equal("Error");
-  });
-
-  it("should add an existing item more than once", function() {
-    let apples = new ShoppingListItem("Apples", "Red delicious");
-    let shoppingList = new ShoppingList();
-    shoppingList.push(apples);
-    shoppingList.push(apples);
-    expect(shoppingList).to.equal([
-      { name: "Apples", description: "Red delicious" },
-      { name: "Apples", description: "Red delicious" }
-    ]);
+  // ) should throw an error when attempting to add anything that is not an existing Item
+  it("should throw an error when attempting to add anything that is not an existing item", function() {
+    expect(function() {
+      let shoppingList = new ShoppingList();
+      let shoppingList2 = new ShoppingList();
+      shoppingList.push(shoppingList2);
+    }).to.throw("Argument is not a ShoppingListItem");
   });
 });
 
 describe(".removeItem", function() {
-  it("should remove item from array", function() {
+  // ) removeItem should be a function
+  it("should be a function", function() {
+    expect(ShoppingList.removeItem).to.be.a("function");
+  });
+
+  // ) should remove existing items from a list
+  it("should remove existing items from a list", function() {
     let apples = new ShoppingListItem("Apples", "Red delicious");
     let oranges = new ShoppingListItem("Oranges", "Cuties");
     let shoppingList = new ShoppingList();
@@ -50,23 +59,7 @@ describe(".removeItem", function() {
     expect(shoppingList).to.equal([{ name: "Oranges", description: "Cuties" }]);
   });
 
-  // it("should do nothing when array is empty", function() {
-  //   let shoppingList = new ShoppingList();
-  //   shoppingList.removeItem(apples);
-
-  // });
-
-  it("should remove only one item", function() {
-    let apples = new ShoppingListItem("Apples", "Red delicious");
-    let shoppingList = new ShoppingList();
-    shoppingList.push(apples);
-    shoppingList.push(apples);
-    shoppingList.removeItem(apples);
-    expect(shoppingList).to.equal([
-      { name: "Apples", description: "Red delicious" }
-    ]);
-  });
-
+  // ) should remove the last item if no parameter defined
   it("should remove last item from array when item is undefined", function() {
     let apples = new ShoppingListItem("Apples", "Red delicious");
     let oranges = new ShoppingListItem("Oranges", "Cuties");
@@ -79,29 +72,46 @@ describe(".removeItem", function() {
     ]);
   });
 
-  it("should throw an error when item does not exist", function() {
-    let apples = new ShoppingListItem("Apples", "Red delicious");
-    let shoppingList = new ShoppingList();
-    shoppingList.push(apples);
-    shoppingList.removeItem(oranges).should.equal("Error");
+  // ) should throw an error when attempting to remove anything that is not an existing item
+  it("should throw an error when attempting to remove anything that is not an existing item", function() {
+    expect(function() {
+      let apples = new ShoppingListItem("Apples", "Red delicious");
+      let shoppingList = new ShoppingList();
+      shoppingList.push(apples);
+      shoppingList.removeItem(oranges);
+    }).to.throw("Argument is not a ShoppingListItem");
+  });
+
+  // ) should throw an error when attempting to remove anything that is not on the list
+  it("should throw an error when attempting to remove anything that is not on the list", function() {
+    expect(function() {
+      let apples = new ShoppingListItem("Apples", "Red delicious");
+      let oranges = new ShoppingListItem("Oranges", "Cuties");
+      let shoppingList = new ShoppingList();
+      shoppingList.push(apples);
+      shoppingList.removeItem(oranges);
+    }).to.throw("Argument is not on the list");
   });
 });
 
 describe(".render", function() {
+  // ) render should be a function
+  it("should be a function", function() {
+    expect(ShoppingList.render).to.be.a("function");
+  });
+
+  // it should render the list as a string
   it("should render this HTML string", function() {
     let apples = new ShoppingListItem("Apples", "Red delicious");
     let oranges = new ShoppingListItem("Oranges", "Cuties");
     let shoppingList = new ShoppingList();
     shoppingList.push(apples);
     shoppingList.push(oranges);
-    shoppingList
-      .render()
-      .should.equal(
-        "<ul><li class='completed_false'><span>Apples</span> <span>Red delicious</span></li><li class='completed_false'><span>Oranges</span> <span>Cuties</span></li></ul>"
-      );
+    shoppingList.render().should.be.a("string");
   });
 
-  it("should render list with checked and unchecked items", function() {
+  // ) should render a list with checked and unchecked items (and properties) as an HTML string
+  it("should render a list with checked and unchecked items and properties as an HTML string", function() {
     let apples = new ShoppingListItem("Apples", "Red delicious");
     let oranges = new ShoppingListItem("Oranges", "Cuties");
     let shoppingList = new ShoppingList();
@@ -115,37 +125,3 @@ describe(".render", function() {
       );
   });
 });
-
-/*
-class ShoppingList {
-    constructor() {
-        this.items = [];
-    }
-
-    addItem(item) {
-        if (item exists) {
-            items.push(item);
-        } else {
-            return "Error";
-        }        
-    }
-
-    removeItem(item) {
-        if (array is empty) {
-            (do nothing)
-        }
-        if (item is undefined) {
-            (remove last item from array)
-        }
-        if (item exists) {
-            (remove item from array)
-        } else {
-            return Error;
-        }
-    }
-
-    render() {
-        (returns a UL of all items in the array)
-    }
-}
-*/

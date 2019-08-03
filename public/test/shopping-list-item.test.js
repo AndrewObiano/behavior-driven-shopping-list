@@ -67,14 +67,17 @@ describe("ShoppingListItem", function() {
       }
     );
     apples.name.should.equal({
-      name: "Apples",
-      name: "Oranges",
-      name: "Bananas"
+      name: "Apples"
+      // name: "Oranges",
+      // name: "Bananas"
     });
     apples.description.should.equal({
-      description: "Red delicious",
-      description: "Navel",
-      description: "Chiquita"
+      description: "Red delicious"
+      // description: "Navel",
+      // description: "Chiquita"
+    });
+    apples.isDone.should.equal({
+      isDone: false
     });
   });
 
@@ -143,7 +146,7 @@ describe(".render", function() {
   it("should render this HTML string", function() {
     let apples = new ShoppingListItem("Apples", "Red delicious");
     expect(apples.render()).should.be(
-      "<li class='completed_false'><span>Apples</span> <span>Red delicious.</span></li>"
+      "<li class='completed_false'><span>Apples</span> <span>Red delicious</span></li>"
     );
   });
 });
